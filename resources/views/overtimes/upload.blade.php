@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Gaji Karyawan')
+@section('title', 'Overtime Karyawan')
 
 @section('content_header')
-    <h1>Gaji</h1>
+    <h1>Overtime</h1>
 @stop
 
 @section('content')
@@ -21,29 +21,29 @@
 @endif
 <div class="card">
     <div class="card-header">
-    <h3 class="card-title">List Gaji</h3>
+    <h3 class="card-title">Upload</h3>
         
     </div>
     <div class="card-body">
         <div class="col-md-6">
-            <form id="uploadForm" action="{{ route('gaji.processUpload') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('overtimes.upload') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                    <label>Upload File Slip Gaji (DOC/DOCX)</label>
-                    <input type="file" name="file" class="form-control" required>
+                    <label>Upload File Overtime (PDF)</label>
+                    <input type="file" name="file" class="form-control" accept="application/pdf" required>
                     <small class="form-text text-muted">
                         File harus berisi slip gaji dengan format yang sesuai
                     </small>
                 </div>
                 <div class="form-group mb-3">
                     <label for="periode">Periode (misal: Januari 2025)</label>
-                    <input type="date" name="periode" class="form-control" required>
+                    <input type="month" name="periode" class="form-control" required>
                 </div>
-        
+
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-        
+
                 <div class="progress mt-3" style="height: 25px; display: none;">
                     <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%">0%</div>
                 </div>
@@ -51,9 +51,6 @@
             </form>
         </div>
     </div>
-    
-
-  
 </div>
 @stop
 

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Worker extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable=['user_id', 'nip', 'jabatan', 'is_active'];
+    protected $fillable=['user_id', 'nrp', 'jabatan', 'departemen', 'staff', 'tempat_lahir', 'tanggal_lahir', 'tgl_masuk_kerja', 'no_hp', 'is_active'];
 
     public function user()
     {

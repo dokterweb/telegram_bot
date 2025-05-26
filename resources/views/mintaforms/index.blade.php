@@ -3,7 +3,7 @@
 @section('title', 'Gaji Karyawan')
 
 @section('content_header')
-    <h1>Gaji</h1>
+    <h1>Cuti Tahunan</h1>
 @stop
 
 @section('content')
@@ -12,7 +12,7 @@
     <div class="card-header">
     <h3 class="card-title">List Etiket</h3>
         <div class="card-tools">
-        <a href="{{route('mintaforms.create')}}" class="btn btn-info"><i class="fas fa-plus-circle"></i> Tambah
+        {{-- <a href="{{route('mintaforms.create')}}" class="btn btn-info"><i class="fas fa-plus-circle"></i> Tambah --}}
         </a>
       </div>
     </div>

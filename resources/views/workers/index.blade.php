@@ -30,6 +30,7 @@
             <thead>
                 <tr>
                     <th>#</th>
+                    <th>ID</th>
                     <th>Nama Karyawan</th>
                     <th>NIP</th>
                     <th>Jabatan</th>
@@ -40,8 +41,9 @@
             @forelse ($workers as $p)
                 <tr>
                     <td>{{$loop->iteration}}</td>
+                    <td>{{$p->id}} </td>
                     <td>{{$p->user->name}} </td>
-                    <td>{{$p->nip}} </td>
+                    <td>{{$p->nrp}} </td>
                     <td>{{$p->jabatan}} </td>
                     <td class="d-flex align-items-center" style="gap: 5px;">
                         <a href="{{route('workers.show',$p->id)}}" class="btn btn-sm btn-success"><i class="fas fa-eye"></i></a>

@@ -30,24 +30,24 @@
             <thead>
                 <tr>
                     <th>#</th>
+                    <th>NRP</th>
                     <th>Nama Karyawan</th>
-                    <th>Gaji Pokok</th>
-                    <th>Total Terima</th>
-                    <th>Total Potongan</th>
-                    <th>Take Home Pay</th>
-                    <th>Action</th>
+                    <th>File Gaji</th>
+                    <th>Periode</th>
+                    {{-- <th>Action</th> --}}
                 </tr>
             </thead>
             <tbody>
             @forelse ($gajis as $p)
                 <tr>
                     <td>{{$loop->iteration}}</td>
+                    <td>{{ $p->worker->nrp }}</td>
                     <td>{{ $p->worker->user->name ?? 'N/A' }}</td>
-                    <td>{{ number_format($p->gajipokok, 0, ',', '.') }}</td>
-                    <td>{{ number_format($p->total_terima, 0, ',', '.') }}</td>
-                    <td>{{ number_format($p->total_potongan, 0, ',', '.') }}</td>
-                    <td>{{ number_format($p->take_home_pay, 0, ',', '.') }}</td>
-                    <td class="d-flex align-items-center" style="gap: 5px;">
+                    <td><a href="{{ Storage::url($p->path_file) }}" target="_blank" class="btn btn-danger">Download</a>
+                    <td>{{ \Carbon\Carbon::parse($p->periode)->format('d-m-Y') }}</td>
+                    </td>
+                    
+                    {{-- <td class="d-flex align-items-center" style="gap: 5px;">
                         <a href="{{route('gajis.show',$p->id)}}" class="btn btn-sm btn-success"><i class="fas fa-eye"></i></a>
                         <a href="{{route('gajis.edit',$p->id)}}" class="btn btn-sm btn-info"><i class="far fa-edit"></i></a>
                         <form action="{{route('gajis.destroy',$p->id)}}" method="POST">
@@ -56,11 +56,11 @@
                             <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"> </i>
                             </button>
                         </form>
-                    </td>
+                    </td> --}}
                 </tr>
             @empty
             <tr>
-                <td colspan="7">No Data</td>
+                <td colspan="6">No Data</td>
             </tr>
             @endforelse
             </tbody>

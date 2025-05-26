@@ -7,29 +7,27 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreWorkerRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return $this->user()->hasAnyRole(['admin']);
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'name'          => ['required', 'string', 'max:255'],
-            'nip'           => ['required', 'string', 'max:255'],
-            'jabatan'       => ['required', 'string', 'max:255'],
-            'is_active'     => ['sometimes','integer'],
-            'avatar'        => ['required','image','mimes:png,jpg,jpeg'],
-            'email'         => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password'      => ['required', 'string', 'min:6'],
+            'name'              => ['required', 'string', 'max:255'],
+            'nrp'               => ['required', 'string', 'max:255'],
+            'jabatan'           => ['required', 'string', 'max:255'],
+            'departemen'        => ['required', 'string', 'max:255'],
+            'is_active'         => ['required', 'in:0,1'],
+            'staff'             => ['required', 'in:0,1'],
+            'tempat_lahir'      => ['required', 'string', 'max:255'],
+            'tanggal_lahir'     => ['required', 'date'],
+            'tgl_masuk_kerja'   => ['required', 'date'],
+            'no_hp'             => ['required', 'string', 'max:100'],
+            'avatar'            => ['required','image','mimes:png,jpg,jpeg'],
+            'email'             => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password'          => ['required', 'string', 'min:6'],
         ];
     }
 }

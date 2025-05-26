@@ -144,57 +144,62 @@ class GajiController extends Controller
         // Split PDF per halaman
         $this->processSlipGaji($fullPdfPath, $request->periode);
 
-        return redirect()->back()->with('success', 'Slip gaji berhasil diproses.');
-    }
+        return redirect()->route('gajis.index')->with('success', 'Slip gaji berhasil diproses.');
 
+        // return redirect()->back()->with('success', 'Slip gaji berhasil diproses.');
+    }
+        
     private function processSlipGaji($pdfPath, $periode)
     {
-        $parser = new Parser();
+        $parser = new \Smalot\PdfParser\Parser();
         $pdf = $parser->parseFile($pdfPath);
         $pages = $pdf->getPages();
         $pageCount = count($pages);
-
-        $pdfSplitter = new Fpdi();
-        $source = $pdfSplitter->setSourceFile($pdfPath);
-
-        foreach (range(1, $pageCount) as $pageNumber) {
+    
+        $source = $pdfPath;
+    
+        for ($pageNumber = 1; $pageNumber <= $pageCount; $pageNumber++) {
+            $pdfSplitter = new \setasign\Fpdi\Fpdi();
             $pdfSplitter->AddPage();
-            $templateId = $pdfSplitter->importPage($pageNumber);
-            $pdfSplitter->useTemplate($templateId);
-
-            // Simpan halaman ke file baru
-            $individualPdfPath = storage_path('app/slip_gaji/individual/page_' . $pageNumber . '.pdf');
+            $templateId = $pdfSplitter->setSourceFile($source);
+            $template = $pdfSplitter->importPage($pageNumber);
+            $pdfSplitter->useTemplate($template);
+    
+            // Simpan halaman ke file sementara
+            $individualPdfPath = storage_path('app/tmp_slip/page_' . $pageNumber . '.pdf');
             if (!file_exists(dirname($individualPdfPath))) {
                 mkdir(dirname($individualPdfPath), 0777, true);
             }
-
+    
             $pdfSplitter->Output($individualPdfPath, 'F');
-
-            // Parse text untuk ambil NRP
-            $individualParser = new Parser();
+    
+            // Parse teks untuk ambil NRP
+            $individualParser = new \Smalot\PdfParser\Parser();
             $individualPdf = $individualParser->parseFile($individualPdfPath);
             $text = $individualPdf->getText();
-
+    
             preg_match('/NIP\/Nama\s*:\s*(\d{6,})/', $text, $matches);
-
+    
             if (isset($matches[1])) {
                 $nrp = $matches[1];
-
+    
                 // Cari worker_id dari NRP
-                $worker = Worker::where('nrp', $nrp)->first();
-
+                $worker = \App\Models\Worker::where('nrp', $nrp)->first();
+    
                 if ($worker) {
                     $namaFile = 'slip_gaji_' . $nrp . '_' . $periode . '.pdf';
                     $pathFile = 'slip_gaji/final/' . $namaFile;
-
-                    // Pindahkan file ke folder final
-                    if (!file_exists(storage_path('app/slip_gaji/final'))) {
-                        mkdir(storage_path('app/slip_gaji/final'), 0777, true);
+                    $fullPath = storage_path('app/public/' . $pathFile); // simpan ke public
+    
+                    if (!file_exists(dirname($fullPath))) {
+                        mkdir(dirname($fullPath), 0777, true);
                     }
-                    copy($individualPdfPath, storage_path('app/' . $pathFile));
-
-                    // Simpan ke database
-                    Gaji::create([
+    
+                    // Pindahkan dari tmp ke final
+                    copy($individualPdfPath, $fullPath);
+    
+                    // Simpan ke DB
+                    \App\Models\Gaji::create([
                         'worker_id' => $worker->id,
                         'nama_file' => $namaFile,
                         'path_file' => $pathFile,
@@ -206,14 +211,10 @@ class GajiController extends Controller
             } else {
                 \Log::warning("NRP tidak ditemukan di halaman $pageNumber");
             }
-
-            // Clear FPDI object untuk halaman berikutnya
-            $pdfSplitter = new Fpdi();
-            $source = $pdfSplitter->setSourceFile($pdfPath);
         }
     }
-        
 
+    
     private function extractFileContent($file, $extension)
     {
         try {
