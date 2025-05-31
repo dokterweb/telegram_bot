@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Usl;
 use App\Models\Worker;
-use App\Models\RapelUsl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -28,90 +27,61 @@ class UslController extends Controller
         ]);
     
         $file = $request->file('file');
+    
         $data = Excel::toArray([], $file);
         $rows = $data[0];
     
         DB::beginTransaction();
-    
         try {
-            $workerIds = [];
-    
-            // 1. Insert/update data usls tanpa rapel_usl_id
             foreach ($rows as $index => $row) {
                 if ($index === 0) continue; // Skip header
-    
-                $nrp        = $row[0];
+            
+                $nrp        = $row[0]; // NIP/NRP
                 $tanggalRaw = $row[2];
                 $inRaw      = $row[3];
                 $outRaw     = $row[4];
                 $status     = $row[5];
-    
+            
+                // Konversi tanggal
                 if (is_numeric($tanggalRaw)) {
                     $tanggal = Date::excelToDateTimeObject($tanggalRaw)->format('Y-m-d');
                 } else {
                     $tanggal = date('Y-m-d', strtotime($tanggalRaw));
                 }
-    
+            
+                // Konversi waktu IN
                 if (is_numeric($inRaw)) {
                     $in = Date::excelToDateTimeObject($inRaw)->format('H:i:s');
                 } else {
                     $in = date('H:i:s', strtotime($inRaw));
                 }
-    
+            
+                // Konversi waktu OUT
                 if (is_numeric($outRaw)) {
                     $out = Date::excelToDateTimeObject($outRaw)->format('H:i:s');
                 } else {
                     $out = date('H:i:s', strtotime($outRaw));
                 }
-    
+            
                 $worker = Worker::where('nrp', $nrp)->first();
-    
+            
                 if ($worker) {
-                    $workerIds[] = $worker->id;
-    
                     Usl::updateOrCreate(
                         [
                             'worker_id' => $worker->id,
                             'tanggal'   => $tanggal,
                         ],
                         [
-                            'in'     => $in,
-                            'out'    => $out,
-                            'status' => $status,
-                            // jangan isi rapel_usl_id dulu
+                            'in'        => $in,
+                            'out'       => $out,
+                            'status'    => $status,
                         ]
                     );
                 }
             }
     
-            // Ambil worker unik
-            $workerIds = array_unique($workerIds);
-    
-            // 2. Insert/update rapel_usls per worker
-            foreach ($workerIds as $workerId) {
-                // Hitung total hadir (status bukan OFFON) per worker
-                $totalHadir = Usl::where('worker_id', $workerId)
-                    ->where('status', '!=', 'OFFON')
-                    ->count();
-    
-                // Buat atau update rapel_usls dengan worker_id
-                $rapel = RapelUsl::updateOrCreate(
-                    ['worker_id' => $workerId],  // pastikan kolom ini ada di rapel_usls
-                    [
-                        'totalhadir' => $totalHadir,
-                        'tarif'      => 0,
-                        'rapelan'    => 0,
-                        'totalusl'   => 0,
-                    ]
-                );
-    
-                // 3. Update kolom rapel_usl_id di usls untuk worker ini
-                Usl::where('worker_id', $workerId)->update(['rapel_usl_id' => $rapel->id]);
-            }
-    
             DB::commit();
-    
-            return redirect()->route('usls.index')->with('success', 'Data berhasil diimport dan diproses.');
+            return redirect()->route('usls.index')->with('success', 'Data cuti berhasil diimport!');
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->with('error', 'Terjadi kesalahan saat import: ' . $e->getMessage());
@@ -191,43 +161,4 @@ class UslController extends Controller
     {
         //
     }
-
-    public function updateModal(Request $request, Usl $usl)
-    {
-        // Debugging: lihat input yang diterima
-        // dd($request->all());
-    
-        // Validasi input
-        $request->validate([
-            'tanggal' => 'required|date',
-            'in' => ['required', 'regex:/^\d{2}:\d{2}(:\d{2})?$/'],  // menerima HH:MM atau HH:MM:SS
-            'out' => ['required', 'regex:/^\d{2}:\d{2}(:\d{2})?$/'],
-            'status' => 'required|string',
-        ]);        
-
-        $in = $request->in;
-        if (strlen($in) === 5) {
-            $in .= ':00';
-        }
-        
-        $out = $request->out;
-        if (strlen($out) === 5) {
-            $out .= ':00';
-        }
-        
-        $usl->update([
-            'tanggal' => $request->tanggal,
-            'in' => $in,
-            'out' => $out,
-            'status' => $request->status,
-        ]);
-        
-    
-        // Redirect kembali dengan pesan sukses
-        return redirect()->route('RapelUsls.detail', $usl->rapel_usl_id)
-            ->with('success', 'Data USL berhasil diperbarui.');
-    }
-    
-
-
 }

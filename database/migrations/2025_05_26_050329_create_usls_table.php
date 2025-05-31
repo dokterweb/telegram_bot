@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('usls', function (Blueprint $table) {
             $table->id();
             $table->foreignId('worker_id')->constrained()->onDelete('cascade');
+            $table->foreignId('rapel_usl_id')->constrained()->onDelete('cascade');
+            $table->date('tanggal');
             $table->time('in');
             $table->time('out');
             $table->string('status');

@@ -20,4 +20,9 @@ class Worker extends Model
     {
         return $this->hasMany(Gaji::class);
     }
+
+    public function usls()
+    {
+        return $this->hasMany(Usl::class, 'worker_id');
+    }
 }

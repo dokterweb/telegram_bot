@@ -377,6 +377,17 @@ return [
             'icon' => 'fas fa-arrow-right',
         ],
        
+        [
+            'text' => 'USL',
+            'url' => 'usls',
+            'icon' => 'fas fa-arrow-right',
+        ],
+        [
+            'text' => 'Rapel USL',
+            'url' => 'RapelUsls',
+            'icon' => 'fas fa-arrow-right',
+        ],
+       
 /* 
         ['header' => 'account_settings'],
         [
