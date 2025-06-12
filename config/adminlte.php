@@ -353,7 +353,7 @@ return [
         ],
         [
             'text' => 'BPJS',
-            'url' => 'bpjs',
+            'url' => 'bpjs2',
             'icon' => 'fas fa-arrow-right',
         ],
         [
@@ -364,6 +364,16 @@ return [
         [
             'text' => 'Surat Tugas',
             'url' => 'surattugases',
+            'icon' => 'fas fa-arrow-right',
+        ],
+        [
+            'text' => 'Surat Aktif',
+            'url' => 'surataktifs',
+            'icon' => 'fas fa-arrow-right',
+        ],
+        [
+            'text' => 'Surat Tetap/Promosi',
+            'url' => 'surat_tetap_promosis',
             'icon' => 'fas fa-arrow-right',
         ],
         [
@@ -385,6 +395,11 @@ return [
         [
             'text' => 'Rapel USL',
             'url' => 'RapelUsls',
+            'icon' => 'fas fa-arrow-right',
+        ],
+        [
+            'text' => 'Form Template',
+            'url' => 'formtemplates',
             'icon' => 'fas fa-arrow-right',
         ],
        

@@ -12,7 +12,7 @@
     <div class="card-header">
     <h3 class="card-title">Isi Form</h3>
     </div>
-    <form method="POST" action="{{route('bpjs.update',$bpj->id)}}" enctype="multipart/form-data">
+    <form method="POST" action="{{route('bpjs2.update',$bpjs->id)}}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="card-body">
@@ -23,15 +23,15 @@
                         <select class="form-control select2" name="worker_id" style="width: 100%;">
                             <option value="">Pilih Karyawan</option>
                             @foreach ($worker as $p)
-                                <option value="{{ $p->id }}" {{ $bpj->worker_id  == $p->id ? 'selected' : '' }}>{{ $p->user->name }}</option>
+                                <option value="{{ $p->id }}" {{ $bpjs->worker_id  == $p->id ? 'selected' : '' }}>{{ $p->user->name }}</option>
                             @endforeach
                         </select>
                         @error('worker_id')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                   @if ($bpj->tenagakerja_file)
-                        <a href="{{Storage::url($bpj->tenagakerja_file)}}" class="btn btn-info" target="_blank">Download</a>
+                   @if ($bpjs->tenagakerja_file)
+                        <a href="{{ asset($bpjs->tenagakerja_file) }}" target="_blank" class="btn btn-danger">Download</a>
                     @endif
                     <div class="form-group">
                         <label for="exampleInputFile">Tiket File</label>
@@ -45,8 +45,8 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    @if ($bpj->kesehatan_file)
-                        <a href="{{Storage::url($bpj->kesehatan_file)}}" class="btn btn-info" target="_blank">Download</a>
+                    @if ($bpjs->kesehatan_file)
+                        <a href="{{ asset($bpjs->tenagakerja_file) }}" target="_blank" class="btn btn-danger">Download</a>
                     @endif
                     <div class="form-group">
                         <label for="exampleInputFile">Tiket File</label>

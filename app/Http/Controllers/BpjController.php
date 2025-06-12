@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Log;
+use Illuminate\Support\Facades\Log;
 use App\Models\Bpj;
 use App\Models\Worker;
 use Illuminate\Http\Request;
@@ -18,7 +18,13 @@ class BpjController extends Controller
     public function index()
     {
         $bpjs = Bpj::with('worker.user')->get();
-        return view('bpjs.index',compact('bpjs'));//
+        // Debugging
+        dd($bpjs); // Akan berhenti dan menampilkan data di browser
+
+        // Atau menggunakan log
+        Log::debug('Data BPJS:', $bpjs->toArray());
+
+        return view('bpjs.index',compact('bpjs'));
     }
 
     /**
@@ -36,14 +42,24 @@ class BpjController extends Controller
     public function store(StoreBpjRequest $request)
     {
         try {
-            // Simpan file BPJS Tenaga Kerja
+            // Simpan file BPJS Tenaga Kerja ke folder public/bpjs/tenagakerja
             if ($request->hasFile('tenagakerja_file')) {
-                $tenagakerjaPath = $request->file('tenagakerja_file')->store('bpjs/tenagakerja', 'public');
+                $tenagakerjaFile = $request->file('tenagakerja_file');
+                $tenagakerjaFileName = $tenagakerjaFile->getClientOriginalName();
+                $tenagakerjaPath = 'bpjs/tenagakerja/' . $tenagakerjaFileName;
+    
+                // Pindahkan file ke public/bpjs/tenagakerja
+                $tenagakerjaFile->move(public_path('bpjs/tenagakerja'), $tenagakerjaFileName);
             }
     
-            // Simpan file BPJS Kesehatan
+            // Simpan file BPJS Kesehatan ke folder public/bpjs/kesehatan
             if ($request->hasFile('kesehatan_file')) {
-                $kesehatanPath = $request->file('kesehatan_file')->store('bpjs/kesehatan', 'public');
+                $kesehatanFile = $request->file('kesehatan_file');
+                $kesehatanFileName = $kesehatanFile->getClientOriginalName();
+                $kesehatanPath = 'bpjs/kesehatan/' . $kesehatanFileName;
+    
+                // Pindahkan file ke public/bpjs/kesehatan
+                $kesehatanFile->move(public_path('bpjs/kesehatan'), $kesehatanFileName);
             }
     
             // Simpan ke database
@@ -59,6 +75,7 @@ class BpjController extends Controller
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan data');
         }
     }
+    
 
     /**
      * Display the specified resource.

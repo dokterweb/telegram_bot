@@ -38,7 +38,8 @@
                         @enderror
                     </div>
                     @if ($etiket->tiket_file)
-                        <a href="{{Storage::url($etiket->tiket_file)}}" class="btn btn-info" target="_blank">Download</a>
+                        {{-- <a href="{{Storage::url($etiket->tiket_file)}}" class="btn btn-info" target="_blank">Download</a> --}}
+                        <a href="{{ asset($etiket->tiket_file) }}" target="_blank" class="btn btn-danger">Download</a>
                     @endif
                     <div class="form-group">
                         <label for="exampleInputFile">Tiket File</label>

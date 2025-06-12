@@ -43,9 +43,8 @@
                     <td>{{$loop->iteration}}</td>
                     <td>{{ $p->worker->nrp }}</td>
                     <td>{{ $p->worker->user->name ?? 'N/A' }}</td>
-                    <td><a href="{{ Storage::url($p->path_file) }}" target="_blank" class="btn btn-danger">Download</a>
+                    <td><a href="{{ asset($p->path_file) }}" target="_blank" class="btn btn-danger">Download</a></td>
                     <td>{{ \Carbon\Carbon::parse($p->periode)->format('d-m-Y') }}</td>
-                    </td>
                     
                     {{-- <td class="d-flex align-items-center" style="gap: 5px;">
                         <a href="{{route('gajis.show',$p->id)}}" class="btn btn-sm btn-success"><i class="fas fa-eye"></i></a>

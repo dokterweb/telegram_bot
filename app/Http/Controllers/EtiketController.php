@@ -44,8 +44,14 @@ class EtiketController extends Controller
             $validated = $request->validated();
     
             if($request->hasFile('tiket_file')){
-                $tiket_filePath = $request->file('tiket_file')->store('tiket_files', 'public');
-                $tiket_filePath = str_replace('public/', '', $tiket_filePath);
+                // Perubahan: Tentukan lokasi folder public/tiket_files untuk menyimpan file
+                $file = $request->file('tiket_file');
+                $fileName = $file->getClientOriginalName();
+                $tiket_filePath = 'tiket_files/' . $fileName;
+
+                // Pindahkan file ke folder public/tiket_files
+                $file->move(public_path('tiket_files'), $fileName);
+                
             }
 
             Etiket::create([
@@ -90,13 +96,18 @@ class EtiketController extends Controller
 
             if ($request->hasFile('tiket_file')) {
                 // Hapus file lama dulu kalau ada
-                if ($etiket->tiket_file && Storage::disk('public')->exists($etiket->tiket_file)) {
-                    Storage::disk('public')->delete($etiket->tiket_file);
+                if ($etiket->tiket_file && file_exists(public_path('tiket_files/' . $etiket->tiket_file))) {
+                    unlink(public_path('tiket_files/' . $etiket->tiket_file)); // Hapus file lama
                 }
 
-                // Upload file baru
-                $tiket_filePath = $request->file('tiket_file')->store('tiket_files', 'public');
-                $tiket_filePath = str_replace('public/', '', $tiket_filePath);
+                // Perubahan: Tentukan lokasi folder public/tiket_files untuk menyimpan file
+                $file = $request->file('tiket_file');
+                $fileName = $file->getClientOriginalName();
+                $tiket_filePath = 'tiket_files/' . $fileName;
+
+                // Pindahkan file ke folder public/tiket_files
+                $file->move(public_path('tiket_files'), $fileName);
+                
             } else {
                 // Kalau tidak upload file baru, gunakan file lama
                 $tiket_filePath = $etiket->tiket_file;

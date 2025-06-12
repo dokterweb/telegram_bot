@@ -40,10 +40,16 @@ class SuratTugasController extends Controller
             $validated = $request->validated();
     
             if($request->hasFile('surat_tugas_file')){
-                $surat_tugas_filePath = $request->file('surat_tugas_file')->store('surat_tugas_files', 'public');
-                $surat_tugas_filePath = str_replace('public/', '', $surat_tugas_filePath);
-            }
+                // Perubahan: Tentukan lokasi folder public/tiket_files untuk menyimpan file
+                $file = $request->file('surat_tugas_file');
+                $fileName = $file->getClientOriginalName();
+                $surat_tugas_filePath = 'surat_tugas/' . $fileName;
 
+                // Pindahkan file ke folder public/surat_tugas
+                $file->move(public_path('surat_tugas'), $fileName);
+                
+            }
+            
             SuratTugas::create([
                 'worker_id'   => $validated['worker_id'],
                 'surat_tugas_file'  => $surat_tugas_filePath ?? null,
@@ -82,33 +88,41 @@ class SuratTugasController extends Controller
         DB::beginTransaction();
         try {
             $validated = $request->validated();
-
+            
+            // Variabel untuk menyimpan path file
+            $surat_tugas_filePath = $suratTugas->surat_tugas_file; // Set file lama sebagai default
+    
+            // Cek apakah ada file baru yang di-upload
             if ($request->hasFile('surat_tugas_file')) {
-                // Hapus file lama dulu kalau ada
-                if ($suratTugas->surat_tugas_file && Storage::disk('public')->exists($suratTugas->surat_tugas_file)) {
-                    Storage::disk('public')->delete($suratTugas->surat_tugas_file);
+                $file = $request->file('surat_tugas_file');
+                
+                // Jika file ada, hapus file lama
+                if ($suratTugas->surat_tugas_file && file_exists(public_path('surat_tugas/' . $suratTugas->surat_tugas_file))) {
+                    unlink(public_path('surat_tugas/' . $suratTugas->surat_tugas_file)); // Hapus file lama
                 }
-
-                // Upload file baru
-                $surat_tugas_filePath = $request->file('surat_tugas_file')->store('surat_tugas_files', 'public');
-                $surat_tugas_filePath = str_replace('public/', '', $surat_tugas_filePath);
-            } else {
-                // Kalau tidak upload file baru, gunakan file lama
-                $surat_tugas_filePath = $suratTugas->surat_tugas_file;
+    
+                // Tentukan nama file dan path penyimpanan
+                $fileName = $file->getClientOriginalName();
+                $surat_tugas_filePath = 'surat_tugas/' . $fileName;
+    
+                // Pindahkan file baru ke folder public/surat_tugas
+                $file->move(public_path('surat_tugas'), $fileName);
             }
-
+    
+            // Update data SuratTugas di database
             $suratTugas->update([
-                'worker_id'   => $validated['worker_id'],
-                'surat_tugas_file'  => $surat_tugas_filePath,
+                'worker_id' => $validated['worker_id'],
+                'surat_tugas_file' => $surat_tugas_filePath,  // Pastikan path file yang benar disimpan
             ]);
-
+    
             DB::commit();
-            return redirect()->route('surattugases.index')->with('success', 'Data Surat Keja berhasil di update!');
+            return redirect()->route('surattugases.index')->with('success', 'Data Surat Kerja berhasil diupdate!');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->route('surattugases.index')->with('error', 'Terjadi kesalahan saat menyimpan data');
         }
     }
+    
 
     /**
      * Remove the specified resource from storage.

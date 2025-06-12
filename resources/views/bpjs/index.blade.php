@@ -12,7 +12,7 @@
     <div class="card-header">
     <h3 class="card-title">List BPJS</h3>
         <div class="card-tools">
-        <a href="{{route('bpjs.create')}}" class="btn btn-info"><i class="fas fa-plus-circle"></i> Tambah
+        <a href="{{route('bpjs2.create')}}" class="btn btn-info"><i class="fas fa-plus-circle"></i> Tambah
         </a>
       </div>
     </div>
@@ -35,18 +35,19 @@
                     <td>{{ $p->tenagakerja_file }}</td>
                     <td>{{ $p->kesehatan_file }}</td>
                     <td class="d-flex align-items-center" style="gap: 5px;">
-                        <a href="{{route('bpjs.edit',$p->id)}}" class="btn btn-sm btn-info"><i class="far fa-edit"></i></a>
+                        <a href="{{route('bpjs2.edit',$p->id)}}" class="btn btn-sm btn-info"><i class="far fa-edit"></i></a>
                        <!-- resources/views/bpjs/index.blade.php atau halaman Anda -->
                         <button type="button" class="btn btn-sm btn-danger btn-delete" data-id="{{ $p->id }}">
                             <i class="fas fa-trash-alt"></i>
                         </button>
 
                         <!-- Form Delete (hidden) -->
-                        <form id="delete-form-{{ $p->id }}" action="{{ route('bpjs.destroy', $p->id) }}" method="POST" class="d-none">
+                        <form id="delete-form-{{ $p->id }}" action="{{ route('bpjs2.destroy', $p->id) }}" method="POST" class="d-none">
                             @csrf
                             @method('DELETE')
                         </form>
                     </td>
+                    <td></td>
                 </tr>
             @empty
             <tr>

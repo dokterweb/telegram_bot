@@ -12,7 +12,7 @@
     <div class="card-header">
     <h3 class="card-title">Isi Form</h3>
     </div>
-    <form method="POST" action="{{route('bpjs.store')}}" enctype="multipart/form-data">
+    <form method="POST" action="{{route('bpjs2.store')}}" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
             <div class="row">

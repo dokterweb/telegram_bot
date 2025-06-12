@@ -32,7 +32,7 @@
                         @enderror
                     </div>
                     @if ($suratkerja->surat_kerja_file)
-                        <a href="{{Storage::url($suratkerja->surat_kerja_file)}}" class="btn btn-info" target="_blank">Download</a>
+                        <a href="{{ asset($suratkerja->surat_kerja_file) }}" target="_blank" class="btn btn-danger">Download</a>
                     @endif
                     <div class="form-group">
                         <label for="exampleInputFile">Tiket File</label>

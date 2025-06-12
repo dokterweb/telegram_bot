@@ -110,15 +110,18 @@ class GajiController extends Controller
             'periode' => 'required|string',
         ]);
 
-        // Upload file docx
+         // Upload file docx
         $file = $request->file('file');
         $originalName = $file->getClientOriginalName();
-        $docxPath = $file->storeAs('slip_gaji', $originalName);
+        // Perubahan: Simpan langsung di public/slip_gaji
+        $docxPath = public_path('slip_gaji/' . $originalName); 
+        $file->move(public_path('slip_gaji'), $originalName); // Pindahkan file ke folder public
 
-        $fullDocxPath = storage_path('app/' . $docxPath);
+        $fullDocxPath = $docxPath; // Full path untuk file yang baru dipindahkan
+
 
         // Convert DOCX ke PDF pakai LibreOffice
-        $outputDir = storage_path('app/slip_gaji/pdf');
+        $outputDir = public_path('slip_gaji/pdf');
         if (!file_exists($outputDir)) {
             mkdir($outputDir, 0777, true);
         }
@@ -166,7 +169,7 @@ class GajiController extends Controller
             $pdfSplitter->useTemplate($template);
     
             // Simpan halaman ke file sementara
-            $individualPdfPath = storage_path('app/tmp_slip/page_' . $pageNumber . '.pdf');
+            $individualPdfPath = public_path('tmp_slip/page_' . $pageNumber . '.pdf');
             if (!file_exists(dirname($individualPdfPath))) {
                 mkdir(dirname($individualPdfPath), 0777, true);
             }
@@ -189,8 +192,8 @@ class GajiController extends Controller
                 if ($worker) {
                     $namaFile = 'slip_gaji_' . $nrp . '_' . $periode . '.pdf';
                     $pathFile = 'slip_gaji/final/' . $namaFile;
-                    $fullPath = storage_path('app/public/' . $pathFile); // simpan ke public
-    
+                    $fullPath = public_path($pathFile); // simpan ke public
+
                     if (!file_exists(dirname($fullPath))) {
                         mkdir(dirname($fullPath), 0777, true);
                     }

@@ -40,8 +40,14 @@ class SuratKerjaController extends Controller
             $validated = $request->validated();
     
             if($request->hasFile('surat_kerja_file')){
-                $surat_kerja_filePath = $request->file('surat_kerja_file')->store('surat_kerja_files', 'public');
-                $surat_kerja_filePath = str_replace('public/', '', $surat_kerja_filePath);
+
+                 // Perubahan: Tentukan lokasi folder public/tiket_files untuk menyimpan file
+                 $file = $request->file('surat_kerja_file');
+                 $fileName = $file->getClientOriginalName();
+                 $surat_kerja_filePath = 'surat_kerja_file/' . $fileName;
+ 
+                 // Pindahkan file ke folder public/surat_kerja_files
+                 $file->move(public_path('surat_kerja_file'), $fileName);
             }
 
             SuratKerja::create([
@@ -85,13 +91,19 @@ class SuratKerjaController extends Controller
 
             if ($request->hasFile('surat_kerja_file')) {
                 // Hapus file lama dulu kalau ada
-                if ($suratkerja->surat_kerja_file && Storage::disk('public')->exists($suratkerja->surat_kerja_file)) {
-                    Storage::disk('public')->delete($suratkerja->surat_kerja_file);
+
+                if ($suratkerja->surat_kerja_file && file_exists(public_path('surat_kerja_file/' . $suratkerja->surat_kerja_file))) {
+                    unlink(public_path('surat_kerja_file/' . $suratkerja->surat_kerja_file)); // Hapus file lama
                 }
 
-                // Upload file baru
-                $surat_kerja_filePath = $request->file('surat_kerja_file')->store('surat_kerja_files', 'public');
-                $surat_kerja_filePath = str_replace('public/', '', $surat_kerja_filePath);
+                 // Perubahan: Tentukan lokasi folder public/tiket_files untuk menyimpan file
+                 $file = $request->file('surat_kerja_file');
+                 $fileName = $file->getClientOriginalName();
+                 $surat_kerja_filePath = 'surat_kerja_file/' . $fileName;
+ 
+                 // Pindahkan file ke folder public/surat_kerja_files
+                 $file->move(public_path('surat_kerja_file'), $fileName);
+
             } else {
                 // Kalau tidak upload file baru, gunakan file lama
                 $surat_kerja_filePath = $suratkerja->surat_kerja_file;
