@@ -377,6 +377,11 @@ return [
             'icon' => 'fas fa-arrow-right',
         ],
         [
+            'text' => 'Surat Lain',
+            'url' => 'suratlains',
+            'icon' => 'fas fa-arrow-right',
+        ],
+        [
             'text' => 'Minta Form',
             'url' => 'mintaforms',
             'icon' => 'fas fa-arrow-right',
@@ -400,6 +405,11 @@ return [
         [
             'text' => 'Form Template',
             'url' => 'formtemplates',
+            'icon' => 'fas fa-arrow-right',
+        ],
+        [
+            'text' => 'Survey',
+            'url' => 'surveys',
             'icon' => 'fas fa-arrow-right',
         ],
        

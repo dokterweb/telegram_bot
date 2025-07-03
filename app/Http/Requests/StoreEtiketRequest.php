@@ -16,7 +16,7 @@ class StoreEtiketRequest extends FormRequest
         return [
             'worker_id'     => ['required','integer'],
             'tgl_tiket'     => ['required','date'],
-            'tiket_file' => ['required', 'mimes:pdf', 'max:100000'],
+            'tiket_file'    => ['sometimes', 'mimes:pdf', 'max:100000'],
         ];
     }
 }

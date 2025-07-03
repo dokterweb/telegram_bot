@@ -65,9 +65,34 @@ class OvertimeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(overtime $overtime)
+    public function destroy(Overtime $overtime)
     {
-        //
+        try {
+            // Log untuk proses penghapusan
+            Log::info('Menghapus Overtime ID: ' . $overtime->id);
+    
+            // Ambil path file PDF terkait
+            $pdfPath = public_path($overtime->path_file);
+    
+            // Hapus file PDF jika ada
+            if (file_exists($pdfPath)) {
+                unlink($pdfPath); // Menghapus file
+                Log::info("File PDF berhasil dihapus: " . $pdfPath);
+            } else {
+                Log::warning("File PDF tidak ditemukan: " . $pdfPath);
+            }
+    
+            // Hapus record Overtime dari database
+            $overtime->delete();
+            Log::info("Data Overtime dengan ID {$overtime->id} berhasil dihapus.");
+    
+            // Redirect dengan pesan sukses
+            return redirect()->route('overtimes.index')->with('success', 'Overtime berhasil dihapus.');
+        } catch (\Exception $e) {
+            // Jika terjadi error, log pesan error dan beri tahu pengguna
+            Log::error("Terjadi kesalahan saat menghapus Overtime: " . $e->getMessage());
+            return back()->withErrors(['message' => 'Terjadi kesalahan saat menghapus Overtime.']);
+        }
     }
 
     public function showUploadForm()

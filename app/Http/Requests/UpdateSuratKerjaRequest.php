@@ -14,8 +14,8 @@ class UpdateSuratKerjaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'worker_id'     => ['required','integer'],
-            'surat_kerja_file' => ['required', 'mimes:pdf', 'max:100000'],
+            'worker_id'         => ['required','integer'],
+            'surat_kerja_file'  => ['sometimes', 'mimes:pdf', 'max:100000'],
         ];
     }
 }

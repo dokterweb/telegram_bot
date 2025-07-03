@@ -30,7 +30,7 @@
                     <th>Nama Karyawan</th>
                     <th>File Gaji</th>
                     <th>Periode</th>
-                    
+                    <th>Act</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,12 +40,19 @@
                         <td>{{ $p->worker->nrp }}</td>
                         <td>{{ $p->worker->user->name ?? 'N/A' }}</td>
                         {{-- <td><a href="{{ Storage::url($p->path_file) }}" target="_blank" class="btn btn-danger">Download</a> --}}
-                        <td><a href="{{ asset($p->path_file) }}" target="_blank" class="btn btn-danger">Download</a></td>
+                        <td><a href="{{ asset($p->path_file) }}" target="_blank" class="btn btn-info">Download</a></td>
                         <td>{{ \Carbon\Carbon::parse($p->periode)->format('d-m-Y') }}</td>
+                        <td>
+                            <form action="{{ route('overtimes.destroy', $p->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Hapus</button>
+                            </form>
+                        </td>
                     </tr>
                 @empty
                 <tr>
-                    <td colspan="5">No Data</td>
+                    <td colspan="6">No Data</td>
                 </tr>
                 @endforelse
             </tbody>

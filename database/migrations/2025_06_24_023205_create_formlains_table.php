@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('formlains', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('worker_id')->constrained()->onDelete('cascade');
+            $table->string('formlain_file')->nullable();
+            $table->date('tgl_mintaform');
+            $table->string('keterangan');
+            $table->softDeletes();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('formlains');
+    }
+};

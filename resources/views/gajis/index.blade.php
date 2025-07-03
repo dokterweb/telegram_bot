@@ -43,19 +43,15 @@
                     <td>{{$loop->iteration}}</td>
                     <td>{{ $p->worker->nrp }}</td>
                     <td>{{ $p->worker->user->name ?? 'N/A' }}</td>
-                    <td><a href="{{ asset($p->path_file) }}" target="_blank" class="btn btn-danger">Download</a></td>
+                    <td><a href="{{ asset($p->path_file) }}" target="_blank" class="btn btn-info"><i class="fas fa-file-pdf"></i>Download</a></td>
                     <td>{{ \Carbon\Carbon::parse($p->periode)->format('d-m-Y') }}</td>
-                    
-                    {{-- <td class="d-flex align-items-center" style="gap: 5px;">
-                        <a href="{{route('gajis.show',$p->id)}}" class="btn btn-sm btn-success"><i class="fas fa-eye"></i></a>
-                        <a href="{{route('gajis.edit',$p->id)}}" class="btn btn-sm btn-info"><i class="far fa-edit"></i></a>
-                        <form action="{{route('gajis.destroy',$p->id)}}" method="POST">
+                    <td> 
+                        <form action="{{ route('gajis.destroy', $p->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"> </i>
-                            </button>
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>Hapus</button>
                         </form>
-                    </td> --}}
+                    </td>
                 </tr>
             @empty
             <tr>

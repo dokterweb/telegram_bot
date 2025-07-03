@@ -26,14 +26,14 @@
   </div>
 </div>
 
-<div class="row">
+  <div class="row">
     <div class="col-lg-3 col-6">
       <!-- small card -->
       <div class="small-box bg-info">
         <div class="inner">
-          <h3>150</h3>
+          <h3>{{$totalKaryawan}}</h3>
 
-          <p>New Orders</p>
+          <p>Total Karyawan</p>
         </div>
         <div class="icon">
           <i class="fas fa-shopping-cart"></i>
@@ -48,9 +48,9 @@
       <!-- small card -->
       <div class="small-box bg-success">
         <div class="inner">
-          <h3>53<sup style="font-size: 20px">%</sup></h3>
+          <h3>{{$totalBpjs}}</h3>
 
-          <p>Bounce Rate</p>
+          <p>BPJS</p>
         </div>
         <div class="icon">
           <i class="ion ion-stats-bars"></i>
@@ -65,9 +65,9 @@
       <!-- small card -->
       <div class="small-box bg-warning">
         <div class="inner">
-          <h3>44</h3>
+          <h3>{{$totalEtiket}}</h3>
 
-          <p>User Registrations</p>
+          <p>Etiket</p>
         </div>
         <div class="icon">
           <i class="fas fa-user-plus"></i>
@@ -82,9 +82,9 @@
       <!-- small card -->
       <div class="small-box bg-danger">
         <div class="inner">
-          <h3>65</h3>
+          <h3>{{$totalGaji}}</h3>
 
-          <p>Unique Visitors</p>
+          <p>Gaji</p>
         </div>
         <div class="icon">
           <i class="fas fa-chart-pie"></i>

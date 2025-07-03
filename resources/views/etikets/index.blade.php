@@ -94,6 +94,7 @@
 
 <script>
 $(document).ready(function() {
+    $('#paketTable').DataTable();
     // Handle delete button click
     $('.btn-delete').on('click', function() {
         var id = $(this).data('id');

@@ -31,6 +31,7 @@
                     <th>NRP</th>
                     <th>Total Hadir</th>
                     <th>Bulan Tahun</th>
+                    <th>File</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -42,6 +43,11 @@
                         <td>{{ $item['nrp'] }}</td>
                         <td>{{ $item['totalhadir'] }}</td>
                         <td>{{ $item['bulan_tahun'] }}</td>
+                        @if ($item['rapel_file'])
+                            <td><a href="{{ asset($item['rapel_file']) }}" target="_blank" class="btn btn-danger">Download</a></td>
+                        @else
+                            <td>No Data</td>
+                        @endif
                         <td><a href="{{route('RapelUsls.detail',$item['id'])}}" class="btn btn-sm btn-info"><i class="far fa-edit"></i></a></td>
                     </tr>
                 @empty

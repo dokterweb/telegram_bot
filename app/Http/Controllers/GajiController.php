@@ -89,12 +89,32 @@ class GajiController extends Controller
            }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Gaji $gaji)
     {
-        //
+        try {
+            // Log data Gaji yang akan dihapus
+            Log::info('Menghapus Gaji ID: ' . $gaji->id);
+
+            // Ambil path file PDF terkait
+            $pdfPath = public_path($gaji->path_file);
+
+            // Hapus file PDF jika ada
+            if (file_exists($pdfPath)) {
+                unlink($pdfPath); // Menghapus file
+                Log::info("File PDF berhasil dihapus: " . $pdfPath);
+            } else {
+                Log::warning("File PDF tidak ditemukan: " . $pdfPath);
+            }
+
+            // Hapus data Gaji dari database
+            $gaji->delete();
+            Log::info("Data Gaji dengan ID {$gaji->id} berhasil dihapus.");
+
+            return redirect()->route('gajis.index')->with('success', 'Slip gaji berhasil dihapus.');
+        } catch (\Exception $e) {
+            Log::error("Terjadi kesalahan saat menghapus data Gaji: " . $e->getMessage());
+            return back()->withErrors(['message' => 'Terjadi kesalahan saat menghapus data.']);
+        }
     }
 
 

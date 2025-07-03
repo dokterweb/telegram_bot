@@ -6,16 +6,18 @@ use App\Http\Controllers\UslController;
 use App\Http\Controllers\Bpj2Controller;
 use App\Http\Controllers\GajiController;
 use App\Http\Controllers\EtiketController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\OvertimeController;
 use App\Http\Controllers\RapelUslController;
 use App\Http\Controllers\MintaFormController;
+use App\Http\Controllers\SuratlainController;
 use App\Http\Controllers\SuratAktifController;
 use App\Http\Controllers\SuratKerjaController;
 use App\Http\Controllers\SuratTugasController;
 use App\Http\Controllers\CutiTahunanController;
-use App\Http\Controllers\SuratTetapPromosiController;
 use App\Http\Controllers\FormtemplateController;
+use App\Http\Controllers\SuratTetapPromosiController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -40,7 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('surataktifs', SuratAktifController::class)->middleware('role:admin');
     Route::resource('surat_tetap_promosis', SuratTetapPromosiController::class)->middleware('role:admin');
     Route::resource('formtemplates', FormtemplateController::class)->middleware('role:admin');
-    
+    Route::resource('suratlains', SuratlainController::class)->middleware('role:admin');
+
     // Rute untuk menampilkan daftar BPJS (index)
     Route::get('bpjs2', [Bpj2Controller::class, 'index'])->middleware('role:admin')->name('bpjs2.index');
     Route::get('bpjs2/create', [Bpj2Controller::class, 'create'])->middleware('role:admin')->name('bpjs2.create');
@@ -73,5 +76,6 @@ Route::middleware('auth')->group(function () {
     Route::get('rapel_usls/detail/{rapelusl}', [RapelUslController::class, 'detail'])->middleware('role:admin')->name('RapelUsls.detail');
     Route::put('rapel_usls/{rapelusl}', [RapelUslController::class, 'update'])->middleware('role:admin')->name('RapelUsls.update');
     
-
+    // Rute untuk menampilkan daftar Survey (index)
+    Route::get('surveys', [SurveyController::class, 'index'])->middleware('role:admin')->name('surveys.index');
 });

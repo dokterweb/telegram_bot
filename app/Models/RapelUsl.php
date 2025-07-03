@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class RapelUsl extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable=['worker_id','totalhadir', 'tarif', 'rapelan', 'totalusl'];
+    protected $fillable=['worker_id','totalhadir', 'tarif', 'rapelan', 'totalusl','rapel_file'];
 
     //relasi ke usls (one to many)
     public function usls()

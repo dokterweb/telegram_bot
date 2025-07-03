@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Gaji Karyawan')
+@section('title', 'Surat Tetap / Promosi')
 
 @section('content_header')
     <h1>Surat Tetap / Promosi</h1>
@@ -67,6 +67,7 @@
 
 <script>
 $(document).ready(function() {
+    $('#paketTable').DataTable();
     // Handle delete button click
     $('.btn-delete').on('click', function() {
         var id = $(this).data('id');

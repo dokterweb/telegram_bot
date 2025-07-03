@@ -47,6 +47,10 @@ class EtiketController extends Controller
                 // Perubahan: Tentukan lokasi folder public/tiket_files untuk menyimpan file
                 $file = $request->file('tiket_file');
                 $fileName = $file->getClientOriginalName();
+                
+                // Mengganti spasi dengan underscore atau karakter lain
+                $fileName = str_replace(' ', '_', $fileName);  // Ganti spasi dengan underscore
+                
                 $tiket_filePath = 'tiket_files/' . $fileName;
 
                 // Pindahkan file ke folder public/tiket_files
