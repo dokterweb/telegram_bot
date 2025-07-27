@@ -8,6 +8,7 @@ use App\Http\Controllers\GajiController;
 use App\Http\Controllers\EtiketController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\WorkerController;
+use App\Http\Controllers\FormlainController;
 use App\Http\Controllers\OvertimeController;
 use App\Http\Controllers\RapelUslController;
 use App\Http\Controllers\MintaFormController;
@@ -37,11 +38,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('gajis', GajiController::class)->middleware('role:admin');
 
     Route::resource('etikets', EtiketController::class)->middleware('role:admin');
-    // Route::resource('bpjs', BpjController::class)->middleware('role:admin');
     Route::resource('suratkerjas', SuratKerjaController::class)->middleware('role:admin');
     Route::resource('surataktifs', SuratAktifController::class)->middleware('role:admin');
     Route::resource('surat_tetap_promosis', SuratTetapPromosiController::class)->middleware('role:admin');
     Route::resource('formtemplates', FormtemplateController::class)->middleware('role:admin');
+    Route::resource('formlains', FormlainController::class)->middleware('role:admin');
     Route::resource('suratlains', SuratlainController::class)->middleware('role:admin');
 
     // Rute untuk menampilkan daftar BPJS (index)

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class CutiTahunan extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable=['worker_id', 'jatahcuti','sisacuti','telahcuti'];
+    protected $fillable=['worker_id', 'jatahcuti','sisacuti','telahcuti','tgl_cutiterakhir'];
 
     public function worker()
     {

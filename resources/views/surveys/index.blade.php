@@ -31,7 +31,8 @@
                     <tr>
                         <td>{{$loop->iteration}}</td>
                         <td>{{ $p->worker->user->name ?? 'N/A' }}</td>
-                        <td>{{ $p->survey_option ?? 'No Data' }}</td>
+                        {{-- <td>{{ $p->survey_option ?? 'No Data' }}</td> --}}
+                        <td>{{ $p->rating_category ?? 'No Category' }}</td> <!-- Menampilkan kategori rating -->
                         <td>{{ \Carbon\Carbon::parse($p->created_at)->format('d-m-Y') }}</td>
                     </tr>
                 @empty

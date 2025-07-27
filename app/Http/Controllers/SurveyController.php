@@ -10,12 +10,38 @@ class SurveyController extends Controller
 {
     public function index()
     {
-        // Mengambil semua data BPJS dari tabel bpjs menggunakan model survey
+        // Mengambil semua data Survey dari tabel surveys menggunakan model Survey
         $surveys = Survey::with('worker.user')->get();
-
+    
+        // Menambahkan kategori berdasarkan nilai survey_option
+        $surveys->map(function ($survey) {
+            $survey->rating_category = $this->getSurveyOptionCategory($survey->survey_option);  // Tambahkan kategori berdasarkan survey_option
+            return $survey;
+        });
+    
         // Menampilkan data ke view
         return view('surveys.index', compact('surveys'));
     }
+    
+    // Fungsi untuk mendapatkan kategori berdasarkan rating
+    private function getSurveyOptionCategory($rating)
+    {
+        switch ($rating) {
+            case 1:
+                return 'Sangat Tidak Puas';
+            case 2:
+                return 'Tidak Puas';
+            case 3:
+                return 'Cukup';
+            case 4:
+                return 'Puas';
+            case 5:
+                return 'Sangat Puas';
+            default:
+                return 'Tidak Diketahui';  // Untuk nilai yang tidak valid
+        }
+    }
+    
 /* 
     public function create()
     {

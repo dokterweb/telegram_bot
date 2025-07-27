@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Cuti Tahunan')
 
 @section('content_header')
-    <h1>Tambah E-Tiket</h1>
+    <h1>Cuti Tahunan</h1>
 @stop
 
 @section('content')

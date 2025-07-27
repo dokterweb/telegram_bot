@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label >NIP</label>
+                        <label >NRP</label>
                         <input type="text" name="nrp" class="form-control" value="{{ old('nrp') }}">
                         @error('nrp')
                             <span class="text-danger">{{ $message }}</span>

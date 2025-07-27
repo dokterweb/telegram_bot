@@ -381,11 +381,7 @@ return [
             'url' => 'suratlains',
             'icon' => 'fas fa-arrow-right',
         ],
-        [
-            'text' => 'Minta Form',
-            'url' => 'mintaforms',
-            'icon' => 'fas fa-arrow-right',
-        ],
+        
         [
             'text' => 'Cuti Tahunan',
             'url' => 'cutiTahunans',
@@ -400,6 +396,11 @@ return [
         [
             'text' => 'Rapel USL',
             'url' => 'RapelUsls',
+            'icon' => 'fas fa-arrow-right',
+        ],
+        [
+            'text' => 'Form Request',
+            'url' => 'formlains',
             'icon' => 'fas fa-arrow-right',
         ],
         [

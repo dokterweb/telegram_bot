@@ -38,9 +38,9 @@
                     <th>NRP</th>
                     <th>Nama Karyawan</th>
                     <th>Tanggal</th>
-                    <th>Jatah Cuti</th>
-                    <th>Sisa Cuti</th>
-                    <th>Telah Cuti</th>
+                    <th>IN</th>
+                    <th>OUT</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>

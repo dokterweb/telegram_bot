@@ -29,8 +29,9 @@
                     <th>NRP</th>
                     <th>Nama Karyawan</th>
                     <th>Jatah Cuti</th>
-                    <th>Sisa Cuti</th>
                     <th>Telah Cuti</th>
+                    <th>Sisa Cuti</th>
+                    <th>Cuti Terakhir</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -41,8 +42,9 @@
                     <td>{{ $p->worker->nrp ?? 'N/A' }}</td>
                     <td>{{ $p->worker->user->name ?? 'N/A' }}</td>
                     <td>{{ $p->jatahcuti }}</td>
-                    <td>{{ $p->sisacuti }}</td>
                     <td>{{ $p->telahcuti }}</td>
+                    <td>{{ $p->sisacuti }}</td>
+                    <td>{{ $p->tgl_cutiterakhir }}</td>
                     <td class="d-flex align-items-center" style="gap: 5px;">
                         <button class="btn btn-warning btn-sm btn-edit"
                             data-id="{{ $p->id }}"
@@ -50,6 +52,7 @@
                             data-jatah="{{ $p->jatahcuti }}"
                             data-sisa="{{ $p->sisacuti }}"
                             data-telah="{{ $p->telahcuti }}"
+                            data-tglakhir="{{ $p->tgl_cutiterakhir }}"
                             data-toggle="modal"
                             data-target="#editModal">
                             Edit
@@ -62,7 +65,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5">No Data</td>
+                    <td colspan="8">No Data</td>
                 </tr>
             @endforelse
             </tbody>
@@ -95,13 +98,17 @@
                       <input type="number" name="jatahcuti" id="jatahcuti" class="form-control" required>
                   </div>
                   <div class="form-group">
-                      <label>Sisa Cuti</label>
-                      <input type="number" name="sisacuti" id="sisacuti" class="form-control" required>
-                  </div>
-                  <div class="form-group">
                       <label>Telah Diambil</label>
                       <input type="number" name="telahcuti" id="telahcuti" class="form-control" required>
                   </div>
+                  <div class="form-group">
+                    <label>Sisa Cuti</label>
+                    <input type="number" name="sisacuti" id="sisacuti" class="form-control" required>
+                </div>
+                  <div class="form-group">
+                    <label>Cuti Terakhir</label>
+                    <input type="date" name="tgl_cutiterakhir" id="tgl_cutiterakhir" class="form-control" required>
+                </div>
               </div>
               <div class="modal-footer">
                   <button type="submit" class="btn btn-primary">Simpan</button>
@@ -129,6 +136,7 @@
         $('#jatahcuti').val($(this).data('jatah'));
         $('#sisacuti').val($(this).data('sisa'));
         $('#telahcuti').val($(this).data('telah'));
+        $('#tgl_cutiterakhir').val($(this).data('tglakhir'));
     });
 
 $(document).ready(function() {

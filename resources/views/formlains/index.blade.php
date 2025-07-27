@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'Gaji Karyawan')
+@section('title', 'Form Request')
 
 @section('content_header')
-    <h1>Cuti Tahunan</h1>
+    <h1>Form Request</h1>
 @stop
 
 @section('content')
 
 <div class="card">
     <div class="card-header">
-    <h3 class="card-title">List Etiket</h3>
+    <h3 class="card-title">List Form Request</h3>
         <div class="card-tools">
         {{-- <a href="{{route('mintaforms.create')}}" class="btn btn-info"><i class="fas fa-plus-circle"></i> Tambah --}}
         </a>
@@ -22,23 +22,25 @@
                 <tr>
                     <th>#</th>
                     <th>Nama Karyawan</th>
-                    <th>Surat Tugas</th>
+                    <th>File Form Request</th>
+                    <th>Keterangan</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-            @forelse ($mintaforms as $p)
+            @forelse ($formlains as $p)
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{ $p->worker->user->name ?? 'N/A' }}</td>
-                    <td>{{ $p->minta_form_file }}</td>
-                    <td class="d-flex align-items-center" style="gap: 5px;">
-                        <a href="{{route('mintaforms.edit',$p->id)}}" class="btn btn-sm btn-info"><i class="far fa-edit"></i></a>
+                    <td>{{ $p->formlain_file ?? 'No Data'  }}</td>
+                    <td>{{ $p->keterangan }}</td>
+                   <td class="d-flex align-items-center" style="gap: 5px;">
+                        <a href="{{route('formlains.edit',$p->id)}}" class="btn btn-sm btn-info"><i class="far fa-edit"></i></a>
                         <button type="button" class="btn btn-sm btn-danger btn-delete" data-id="{{ $p->id }}">
                             <i class="fas fa-trash-alt"></i>
                         </button>
 
-                        <form id="delete-form-{{ $p->id }}" action="{{ route('mintaforms.destroy', $p->id) }}" method="POST" class="d-none">
+                        <form id="delete-form-{{ $p->id }}" action="{{ route('formlains.destroy', $p->id) }}" method="POST" class="d-none">
                             @csrf
                             @method('DELETE')
                         </form>
@@ -46,7 +48,7 @@
                 </tr>
             @empty
             <tr>
-                <td colspan="4">No Data</td>
+                <td colspan="5">No Data</td>
             </tr>
             @endforelse
             </tbody>
@@ -62,6 +64,9 @@
 @section('js')
     
 <!-- resources/views/layouts/app.blade.php atau layout utama -->
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+<!-- SweetAlert 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
 $(document).ready(function() {

@@ -32,7 +32,7 @@
                     <th>#</th>
                     <th>ID</th>
                     <th>Nama Karyawan</th>
-                    <th>NIP</th>
+                    <th>NRP</th>
                     <th>Jabatan</th>
                     <th>Action</th>
                 </tr>
