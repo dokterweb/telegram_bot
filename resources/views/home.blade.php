@@ -105,5 +105,22 @@
 @stop
 
 @section('js')
-    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
+@parent
+  @if($globalSuratNotif)
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script>
+          Swal.fire({
+              title: 'Permintaan Surat Baru!',
+              html: `<b>{{ $globalSuratNotif->worker->jabatan ?? 'Pegawai' }}</b><br>
+                    NRP: {{ $globalSuratNotif->worker->nrp }}<br>
+                    Keterangan: {{ $globalSuratNotif->keterangan }}`,
+              icon: 'info',
+              confirmButtonText: 'Tandai dibaca'
+          }).then(() => {
+              fetch("{{ route('suratlain.markAsNotified', ['id' => $globalSuratNotif->id]) }}");
+          });
+      </script>
+  @endif
+
+ 
 @stop

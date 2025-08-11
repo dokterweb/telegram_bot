@@ -327,6 +327,12 @@ return [
             
         ],
         [
+            'text' => 'Import Karyawan',
+            'url' => 'workers/import',
+            'icon' => 'fas fa-users',
+            
+        ],
+        [
             'text' => 'Gaji',
             'url' => 'gajis',
             'icon' => 'fas fa-arrow-right',

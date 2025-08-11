@@ -33,7 +33,7 @@
     <table class="info-table">
         <tr>
             <td><strong>Nama Karyawan</strong></td>
-            <td>{{ $worker->name }}</td>
+            <td>{{ $worker->user->name }}</td>
         </tr>
         <tr>
             <td><strong>NRP</strong></td>

@@ -52,16 +52,18 @@ class UslController extends Controller
                     $tanggal = date('Y-m-d', strtotime($tanggalRaw));
                 }
     
-                if (is_numeric($inRaw)) {
-                    $in = Date::excelToDateTimeObject($inRaw)->format('H:i:s');
+                // Cek apakah inRaw kosong atau hanya berisi spasi
+                if (empty(trim($inRaw))) {
+                    $in = '00:00:00';  // Set default time jika kosong
                 } else {
-                    $in = date('H:i:s', strtotime($inRaw));
+                    $in = is_numeric($inRaw) ? Date::excelToDateTimeObject($inRaw)->format('H:i:s') : date('H:i:s', strtotime($inRaw));
                 }
-    
-                if (is_numeric($outRaw)) {
-                    $out = Date::excelToDateTimeObject($outRaw)->format('H:i:s');
+
+                // Cek apakah outRaw kosong atau hanya berisi spasi
+                if (empty(trim($outRaw))) {
+                    $out = '00:00:00';  // Set default time jika kosong
                 } else {
-                    $out = date('H:i:s', strtotime($outRaw));
+                    $out = is_numeric($outRaw) ? Date::excelToDateTimeObject($outRaw)->format('H:i:s') : date('H:i:s', strtotime($outRaw));
                 }
     
                 $worker = Worker::where('nrp', $nrp)->first();

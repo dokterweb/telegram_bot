@@ -65,7 +65,7 @@ class RapelUslController extends Controller
         $rapelusl->update([
             'tarif'   => $request->tarif,
             'rapelan' => $request->rapelan,
-            'totalusl' => $request->tarif + $request->rapelan, // Contoh perhitungan total usl
+            'totalusl' => ($rapelusl->totalhadir * $request->tarif) + $request->rapelan, // Rumus baru
         ]);
 
         // Memperbarui PDF setelah update

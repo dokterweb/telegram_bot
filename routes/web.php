@@ -28,7 +28,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/suratlain/mark-notified/{id}', function ($id) {
+    \App\Models\SuratLain::where('id', $id)->update(['is_notified' => true]);
+    return response()->json(['status' => 'ok']);
+})->name('suratlain.markAsNotified');
 
+
+Route::get('workers/import', [WorkerController::class, 'showImportForm'])->name('workers.import');
+Route::post('workers/import', [WorkerController::class, 'import'])->name('workers.import.submit');
 Route::middleware('auth')->group(function () {
     Route::resource('workers', WorkerController::class)->middleware('role:admin');
 

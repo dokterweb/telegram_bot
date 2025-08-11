@@ -7,6 +7,8 @@ use App\Models\Worker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\WorkersImport;
 use App\Http\Requests\StoreWorkerRequest;
 use App\Http\Requests\UpdateWorkerRequest;
 
@@ -188,5 +190,29 @@ class WorkerController extends Controller
             DB::rollBack();
             return redirect()->route('workers.index');
         }
+    }
+
+     // Fungsi untuk menampilkan form import
+     public function showImportForm()
+     {
+         return view('workers.import');  // Sesuaikan dengan nama view untuk form import
+     }
+
+      // Fungsi untuk menangani import data
+    public function import(Request $request)
+    {
+        // Validasi file
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls'  // Validasi file Excel
+        ]);
+
+        // Ambil file yang diupload
+        $file = $request->file('file');
+
+        // Menggunakan Laravel Excel untuk mengimpor data
+        Excel::import(new WorkersImport, $file);
+
+        // Setelah berhasil, redirect ke halaman workers
+        return redirect()->route('workers.index')->with('success', 'Data workers berhasil diimport!');
     }
 }

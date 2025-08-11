@@ -76,5 +76,14 @@
             @yield('content')
         </main>
     </div>
+     <!-- Add Auto-refresh Script -->
+     @stack('js')
+
+     <!-- Auto-refresh Script -->
+     <script>
+         setInterval(function(){
+             location.reload(); // Refresh halaman
+         }, 300000); // 300000 ms = 5 menit
+     </script>
 </body>
 </html>
